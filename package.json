@@ -1,0 +1,17 @@
+{
+  "name": "plutobot",
+  "version": "1.0.0",
+  "description": "bot for plutomc",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "DarkMatter#1708",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "nodemon": "^1.11.1"
+  }
+}
