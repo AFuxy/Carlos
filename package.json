@@ -12,6 +12,7 @@
     "colors": "^1.4.0",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
-    "nodemon": "^1.11.1"
+    "nodemon": "^1.11.1",
+    "superagent": "^7.1.1"
   }
 }
