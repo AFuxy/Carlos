@@ -54,7 +54,7 @@ setInterval(() => {
     // https://mcapi.us/server/status?ip=${servers.ip}
 
     console.log(colors.cyan("updating... | " + new Date()));
-    client.channels.cache.get('955646195777273917').messages.fetch('955892006356414494').then(message => {
+    client.channels.cache.get(process.env.CHANNELID).messages.fetch(process.env.MESSAGEID).then(message => {
         message.channel.sendTyping()
         var serverList = "";
         mcServers.forEach(servers => {
@@ -122,39 +122,6 @@ client.on('messageCreate',async message => {
             // send embed
             message.channel.send({ embeds: [Status] });
         }, mcServers.length * 1e3);
-    }
-    if(message.content == '!update') {
-        message.delete();
-        client.channels.cache.get('955646195777273917').messages.fetch('955892006356414494').then(message => {
-        message.channel.sendTyping()
-        var serverList = "";
-        mcServers.forEach(servers => {
-            // serverList = serverList + `**${servers.name}** | '${servers.ip}'\n`;
-            superagent.get(`https://mcapi.us/server/status?ip=${servers.ip}`).then(res => {
-                if (res.body.online) {
-                    // serverList = serverList + `**${servers.name}** | <:Tick:867432833063452733>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n`;
-                } else {
-                    // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n`;
-                }
-            }, err => {
-                console.log(err);
-            });
-        });
-        //wait till foreach has finished
-        setTimeout(() => {
-            const Status = new MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n\n`+serverList)
-            // .addField('Servers', serverList)
-            .setTimestamp()
-            .setFooter({ text: footer });
-            // send embed
-            message.edit({ embeds: [Status] });
-        }, mcServers.length * 1e3);
-        });
     }
     if(message.content == '!stats') {
         message.channel.sendTyping()
