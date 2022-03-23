@@ -55,11 +55,11 @@ setInterval(() => {
         mcServers.forEach(servers => {
             // serverList = serverList + `**${servers.name}** | '${servers.ip}'\n`;
             superagent.get(`https://mcapi.us/server/status?ip=${servers.ip}`).then(res => {
-                // maxplayers = res.body.players.max;
-                // nowplayers = res.body.players.now;
+                maxplayers = res.body.players.max;
+                nowplayers = res.body.players.now;
                 if (res.body.online) {
                     // serverList = serverList + `**${servers.name}** | <:Tick:867432833063452733>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733>\n`;
+                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n`;
                 } else {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n`;
@@ -91,12 +91,12 @@ client.on('messageCreate',async message => {
         var serverList = "";
         mcServers.forEach(servers => {
             // serverList = serverList + `**${servers.name}** | '${servers.ip}'\n`;
-            superagent.get(`https://api.mcsrvstat.us/2/${servers.ip}`).then(res => {
+            superagent.get(`https://mcapi.us/server/status?ip=${servers.ip}`).then(res => {
                 maxplayers = res.body.players.max;
                 nowplayers = res.body.players.now;
                 if (res.body.online) {
                     // serverList = serverList + `**${servers.name}** | <:Tick:867432833063452733>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733>\n**Players:** ${nowplayers}/${maxplayers}\n`;
+                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n`;
                 } else {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n`;
@@ -125,10 +125,10 @@ client.on('messageCreate',async message => {
         var serverList = "";
         mcServers.forEach(servers => {
             // serverList = serverList + `**${servers.name}** | '${servers.ip}'\n`;
-            superagent.get(`https://api.mcsrvstat.us/2/${servers.ip}`).then(res => {
+            superagent.get(`https://mcapi.us/server/status?ip=${servers.ip}`).then(res => {
                 if (res.body.online) {
                     // serverList = serverList + `**${servers.name}** | <:Tick:867432833063452733>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733>\n**Players:** ${nowplayers}/${maxplayers}\n`;
+                    serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n`;
                 } else {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n`;
