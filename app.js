@@ -45,7 +45,7 @@ client.once('ready', async () => {
 });
 
 setInterval(() => {
-    // https://api.mcsrvstat.us
+    // https://api.mcsrvstat.us/2/${servers.ip}
     // https://mcapi.us/server/status?ip=${servers.ip}
 
     console.log(colors.cyan("updating... | " + new Date()));
@@ -54,7 +54,7 @@ setInterval(() => {
         var serverList = "";
         mcServers.forEach(servers => {
             // serverList = serverList + `**${servers.name}** | '${servers.ip}'\n`;
-            superagent.get(`https://api.mcsrvstat.us/2/${servers.ip}`).then(res => {
+            superagent.get(`https://mcapi.us/server/status?ip=${servers.ip}`).then(res => {
                 if (res.body.online) {
                     // serverList = serverList + `**${servers.name}** | <:Tick:867432833063452733>\n`;
                     serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733>\n`;
@@ -71,7 +71,7 @@ setInterval(() => {
             const Status = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n\n`+serverList+`\n**This updates every 2 minutes**`)
+            .setDescription(`**IP:** plutomc.xyz\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer});
@@ -79,7 +79,7 @@ setInterval(() => {
             message.edit({ embeds: [Status] });
         }, mcServers.length * 1e3);
         });
-}, 12e4);
+}, 6e5);
 
 
 // send a message when someone types status
