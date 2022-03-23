@@ -11,6 +11,11 @@ const fs = require('fs');
 const colors = require('colors');
 const cli = require('nodemon/lib/cli');
 
+const moment = require("moment");
+require("moment-duration-format");
+const os = require("os");
+const cpuStat = require("cpu-stat");
+
 // client intents 
 const client = new discord.Client({ intents: [discord.Intents.FLAGS.GUILDS, discord.Intents.FLAGS.GUILD_MESSAGES] });
 
@@ -76,7 +81,7 @@ setInterval(() => {
             .setDescription(`**IP:** plutomc.xyz\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             .setTimestamp()
-            .setFooter({ text: footer});
+            .setFooter({ text: footer });
             // send embed
             message.edit({ embeds: [Status] });
         }, mcServers.length * 1e3);
@@ -113,7 +118,7 @@ client.on('messageCreate',async message => {
             .setDescription(`**IP:** plutomc.xyz\n\n`+serverList)
             // .addField('Servers', serverList)
             .setTimestamp()
-            .setFooter({ text: footer});
+            .setFooter({ text: footer });
             // send embed
             message.channel.send({ embeds: [Status] });
         }, mcServers.length * 1e3);
@@ -145,11 +150,36 @@ client.on('messageCreate',async message => {
             .setDescription(`**IP:** plutomc.xyz\n\n`+serverList)
             // .addField('Servers', serverList)
             .setTimestamp()
-            .setFooter({ text: footer});
+            .setFooter({ text: footer });
             // send embed
             message.edit({ embeds: [Status] });
         }, mcServers.length * 1e3);
         });
+    }
+    if(message.content == '!stats') {
+        message.channel.sendTyping()
+        cpuStat.usagePercent(function(err, percent, seconds) {
+			if (err) {
+				return console.log(err);
+			}
+
+			var duration = moment
+				.duration(client.uptime)
+				.format(" D [days], H [hrs], m [mins], s [secs]");
+			var Stats = new MessageEmbed()
+				.setTitle("*** Stats ***")
+				.setColor("#C0C0C0")
+				.addField("• Mem Usage",`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`,true)
+				.addField("• Uptime ", `${duration}`, true)
+				// .addField("• Discord.js", `v${version}`, true)
+				// .addField("• Node", `${process.version}`, true)
+				.addField("• CPU",`\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
+				.addField("• CPU usage", `\`${percent.toFixed(2)}%\``, true)
+				.addField("• Arch", `\`${os.arch()}\``, true)
+				.addField("• Platform", `\`\`${os.platform()}\`\``, true)
+				.setFooter({ text: footer });
+                message.channel.send({ embeds: [Stats] });
+            });
     }
 });
 
