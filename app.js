@@ -126,6 +126,17 @@ client.on('messageCreate',async message => {
             message.channel.send({ embeds: [Status] });
         }, mcServers.length * 1e3);
     }
+    // change the nickname of the bot
+    if (message.content == '!nick') {
+        if (message.author.id === '200612445373464576') {
+            var nick = message.content.split(' ')[1];
+            //change nickname of the bot in the specifc server
+            client.guilds.cache.get('663788996949966878').members.cache.get('740587122792333312').setNickname(nick);
+            message.channel.send(`✔  ${colors.green('Nickname changed to ' + nick)}`);
+        } else {
+            message.channel.send(`❌  ${colors.red('You are not allowed to change the nickname!')}`);
+        }
+    }
     if(message.content == '!stats') {
         message.channel.sendTyping()
         cpuStat.usagePercent(function(err, percent, seconds) {
