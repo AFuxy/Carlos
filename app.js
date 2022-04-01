@@ -154,7 +154,7 @@ client.on('messageCreate',async message => {
 				.addField("• Uptime ", `${duration}`, true)
 				// .addField("• Discord.js", `v${version}`, true)
 				// .addField("• Node", `${process.version}`, true)
-                .addField("• Carlos", `\`v${version}\``, true)
+                .addField("• Carlos", `\`v${appversion}\``, true)
 				.addField("• CPU",`\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
 				.addField("• CPU usage", `\`${percent.toFixed(2)}%\``, true)
 				.addField("• Arch", `\`${os.arch()}\``, true)
