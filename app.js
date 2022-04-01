@@ -11,6 +11,9 @@ const fs = require('fs');
 const colors = require('colors');
 const cli = require('nodemon/lib/cli');
 
+//get application version
+const appversion = require('./package.json').version;
+
 const moment = require("moment");
 require("moment-duration-format");
 const os = require("os");
@@ -19,7 +22,7 @@ const cpuStat = require("cpu-stat");
 // client intents 
 const client = new discord.Client({ intents: [discord.Intents.FLAGS.GUILDS, discord.Intents.FLAGS.GUILD_MESSAGES] });
 
-global.footer = "Created by DarkMatter#1708";
+global.footer = "Created by DarkMatter#1708 • Version " + appversion;
 global.developers = [
     '200612445373464576'
 ];
@@ -78,7 +81,7 @@ setInterval(() => {
             const Status = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:**\`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
@@ -115,7 +118,7 @@ client.on('messageCreate',async message => {
             const Status = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n\n`+serverList)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:**\`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             // .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
@@ -140,6 +143,7 @@ client.on('messageCreate',async message => {
 				.addField("• Uptime ", `${duration}`, true)
 				// .addField("• Discord.js", `v${version}`, true)
 				// .addField("• Node", `${process.version}`, true)
+                .addField("• Carlos", `\`v${version}\``, true)
 				.addField("• CPU",`\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
 				.addField("• CPU usage", `\`${percent.toFixed(2)}%\``, true)
 				.addField("• Arch", `\`${os.arch()}\``, true)
