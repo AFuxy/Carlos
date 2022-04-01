@@ -81,7 +81,7 @@ setInterval(() => {
             const Status = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:**\`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
@@ -118,7 +118,7 @@ client.on('messageCreate',async message => {
             const Status = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:**\`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             // .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
@@ -127,7 +127,7 @@ client.on('messageCreate',async message => {
         }, mcServers.length * 1e3);
     }
     // change the nickname of the bot
-    if (message.content == '!nick') {
+    if (message.content.startsWith('!nick')) {
         if (message.author.id === '200612445373464576') {
             var nick = message.content.split(' ')[1];
             //change nickname of the bot in the specifc server
