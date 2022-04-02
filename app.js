@@ -131,10 +131,37 @@ client.on('messageCreate',async message => {
         if (message.author.id === '200612445373464576') {
             var nick = message.content.split(' ')[1];
             //change nickname of the bot in the specifc server
-            client.guilds.cache.get('663788996949966878').members.cache.get('740587122792333312').setNickname(nick);
-            message.channel.send(`✔  ${colors.green('Nickname changed to ' + nick)}`);
+
+            client.guilds.cache.get(message.guildId).members.cache.get('740587122792333312').setNickname(nick);
+            message.channel.send(`✔  Nickname changed to ${nick}`);
         } else {
-            message.channel.send(`❌  ${colors.red('You are not allowed to change the nickname!')}`);
+            message.channel.send(`❌  You are not allowed to change the nickname!`);
+        }
+    }
+    // list of guilds the bot is in with id
+    if (message.content === '!guilds') {
+        message.channel.sendTyping()
+        var guilds = "";
+        client.guilds.cache.forEach(guild => {
+            guilds = guilds + `**${guild.name}** | ${guild.id}\n`;
+        });
+        const Guilds = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Guilds')
+        .setDescription(guilds)
+        .setTimestamp()
+        .setFooter({ text: footer });
+        // send embed
+        message.channel.send({ embeds: [Guilds] });
+    }
+    // leave a guild based on id
+    if (message.content.startsWith('!leave')) {
+        if (message.author.id === '200612445373464576') {
+            var guildid = message.content.split(' ')[1];
+            client.guilds.cache.get(guildid).leave();
+            message.channel.send(`✔  Left guild ${guildid}`);
+        } else {
+            message.channel.send(`❌  You are not allowed to leave a guild!`);
         }
     }
     if(message.content == '!stats') {
