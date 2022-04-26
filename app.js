@@ -1,6 +1,6 @@
 // import discord.js
 const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 // import superagent
 const superagent = require('superagent');
 // import .env
@@ -13,6 +13,7 @@ const cli = require('nodemon/lib/cli');
 
 //get application version
 const appversion = require('./package.json').version;
+const config = require("./config.json");
 
 const moment = require("moment");
 require("moment-duration-format");
@@ -26,7 +27,6 @@ global.footer = "Created by DarkMatter#1708 • Version " + appversion;
 global.developers = [
     '200612445373464576'
 ];
-global.prefix = "^";
 
 var activities = [
 	{ msg: 'Minecraft', type: 'WATCHING' },
@@ -98,9 +98,18 @@ setInterval(() => {
         });
 }, 6e5);
 
-
 // send a message when someone types status
 client.on('messageCreate',async message => {
+    let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8", {'flags': 'r+'}))
+
+    if(!prefixes[message.guild.id]){
+        prefixes[message.guild.id] = {
+            prefixes: config.prefix
+        };
+    }
+
+    let prefix = prefixes[message.guild.id].prefixes;
+
     if (message.content === prefix+'status') {
         message.channel.sendTyping()
         var serverList = "";
@@ -149,6 +158,20 @@ client.on('messageCreate',async message => {
         message.channel.send({ embeds: [Help] });
     }
 
+    // setprefix
+    if (message.content.startsWith(prefix+'setprefix')) {
+        if (!message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
+        let newPrefix = message.content.split(' ').slice(1, 2)[0];
+        prefixes[message.guild.id] = {
+            prefixes: newPrefix
+        };
+        fs.writeFile("./prefixes.json", JSON.stringify(prefixes), (err) => {
+            if (err) console.log(err)
+        });
+        message.channel.send(`${message.author.username} Prefix has been set to ${newPrefix}`);
+        client.guilds.cache.get(message.guildId).members.cache.get(client.user.id).setNickname(client.user.username + ' (' + newPrefix+ ')');
+    }
+
     // when ating the bot send a message
     if (message.content.includes(client.user.id)) {
         message.channel.sendTyping()
@@ -178,6 +201,8 @@ client.on('messageCreate',async message => {
                 .setFooter({ text: footer });
                 // send embed
                 message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                // delete message after sending
+                message.delete();
             }
         } else {
             message.channel.send('You do not have permission to use this command.');
@@ -192,7 +217,7 @@ client.on('messageCreate',async message => {
             var nick = args.slice(1).join(" ");
             //change nickname of the bot in the specifc server
 
-            client.guilds.cache.get(message.guildId).members.cache.get('740587122792333312').setNickname(nick);
+            client.guilds.cache.get(message.guildId).members.cache.get(client.user.id).setNickname(nick);
             message.channel.send(`✔  Nickname changed to ${nick}`);
         } else {
             message.channel.send(`❌  You are not allowed to change the nickname!`);
