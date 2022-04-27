@@ -160,7 +160,8 @@ client.on('messageCreate',async message => {
 
     // setprefix
     if (message.content.startsWith(prefix+'setprefix')) {
-        if (!message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
+        // if (!message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
+        if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || !message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
         let newPrefix = message.content.split(' ').slice(1, 2)[0];
         prefixes[message.guild.id] = {
             prefixes: newPrefix
@@ -185,7 +186,9 @@ client.on('messageCreate',async message => {
 
     // make custom announcements
     if (message.content.startsWith(prefix+'announce')) {
-        if (message.author.id === '200612445373464576') {
+        //only people with a role can use this command
+        if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
+        // if (message.author.id === '200612445373464576') {
             const args = message.content.substring(prefix.length).split(" ");
             // const command = args.shift().toLowerCase();
             const announcement = args.slice(1).join(" ");
@@ -195,7 +198,7 @@ client.on('messageCreate',async message => {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor(randomHex())
-                .setTitle('Announcement')
+                .setTitle('📜 General Announcement')
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
@@ -205,7 +208,65 @@ client.on('messageCreate',async message => {
                 message.delete();
             }
         } else {
-            message.channel.send('You do not have permission to use this command.');
+            message.delete();
+            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
+        }
+    }
+
+
+    if (message.content.startsWith(prefix+'sannounce')) {
+        //only people with a role can use this command
+        if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
+        // if (message.author.id === '200612445373464576') {
+            const args = message.content.substring(prefix.length).split(" ");
+            // const command = args.shift().toLowerCase();
+            const announcement = args.slice(1).join(" ");
+            if (announcement.length < 1) {
+                message.channel.send('Please enter a message to announce.');
+            } else {
+                // embed
+                const Announcement = new MessageEmbed()
+                .setColor('#55FF55')
+                .setTitle('🛠️ Survival Announcement')
+                .setDescription(announcement)
+                .setTimestamp()
+                .setFooter({ text: footer });
+                // send embed
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                // delete message after sending
+                message.delete();
+            }
+        } else {
+            message.delete();
+            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
+        }
+    }
+
+    if (message.content.startsWith(prefix+'rpannounce')) {
+        //only people with a role can use this command
+        if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
+        // if (message.author.id === '200612445373464576') {
+            const args = message.content.substring(prefix.length).split(" ");
+            // const command = args.shift().toLowerCase();
+            const announcement = args.slice(1).join(" ");
+            if (announcement.length < 1) {
+                message.channel.send('Please enter a message to announce.');
+            } else {
+                // embed
+                const Announcement = new MessageEmbed()
+                .setColor('#AA0000')
+                .setTitle('⚔️ RP Announcement')
+                .setDescription(announcement)
+                .setTimestamp()
+                .setFooter({ text: footer });
+                // send embed
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                // delete message after sending
+                message.delete();
+            }
+        } else {
+            message.delete();
+            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
         }
     }
 
