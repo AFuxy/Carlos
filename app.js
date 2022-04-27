@@ -152,6 +152,9 @@ client.on('messageCreate',async message => {
         .addField(`**${prefix}help**`, '`for this list of commands`')
         .addField(`**${prefix}status**`, '`for the live server status`')
         .addField(`**More Coming Soon**`, '`Soon™`')
+        .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
+        .addField(`**${prefix}sannounce**`, '`Survival announements, will be mostly used by DarkMatter`', true)
+        .addField(`**${prefix}rpannounce**`, '`RP announements, will be mostly used by IHaveCleanToes`', true)
         .setTimestamp()
         .setFooter({ text: footer });
         // send embed
