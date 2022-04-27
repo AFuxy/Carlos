@@ -39,8 +39,8 @@ var activities = [
 var mcServers = [
     { order: 1, ip: 'plutomc.xyz', name: 'Main Server', info: '_No Info Given_' },
     { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
-    { order: 3, ip: '135.125.52.200:25599', name: 'Survival', info: 'Beta 3.6' },
-    { order: 4, ip: '51.68.204.146:25570', name: 'RP', info: '**Coming Soon!**' },
+    { order: 3, ip: '135.125.52.200:25599', name: 'Survival', info: 'Get Mining, Get Fighting!' },
+    { order: 4, ip: '51.68.204.146:25570', name: 'RP', info: 'Let your fantasy role-play begin!' },
     // { order: 5, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
     // { order: 6, ip: '192.0.2.1', name: 'Skyblock', info: '_No Info Given_' },
 ];
