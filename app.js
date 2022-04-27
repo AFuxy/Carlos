@@ -161,7 +161,7 @@ client.on('messageCreate',async message => {
     // setprefix
     if (message.content.startsWith(prefix+'setprefix')) {
         // if (!message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
-        if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || !message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || message.author.id === '200612445373464576') return message.channel.send(`${message.author.username} You do not have permission to use this command!`);
+        if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || !message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || !message.author.id === '200612445373464576') return message.channel.send(`${message.author.username}, You do not have permission to use this command!`);
         let newPrefix = message.content.split(' ').slice(1, 2)[0];
         prefixes[message.guild.id] = {
             prefixes: newPrefix
@@ -209,7 +209,7 @@ client.on('messageCreate',async message => {
             }
         } else {
             message.delete();
-            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
+            message.channel.send(`${message.author.username}, You do not have permission to use this command!`)
         }
     }
 
@@ -227,7 +227,7 @@ client.on('messageCreate',async message => {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor('#55FF55')
-                .setTitle('🛠️ Survival Announcement')
+                .setTitle('🛠️ Survival Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
@@ -238,7 +238,7 @@ client.on('messageCreate',async message => {
             }
         } else {
             message.delete();
-            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
+            message.channel.send(`${message.author.username}, You do not have permission to use this command!`)
         }
     }
 
@@ -255,7 +255,7 @@ client.on('messageCreate',async message => {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor('#AA0000')
-                .setTitle('⚔️ RP Announcement')
+                .setTitle('⚔️ RP Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
@@ -266,7 +266,7 @@ client.on('messageCreate',async message => {
             }
         } else {
             message.delete();
-            message.channel.send(`${message.author.username} You do not have permission to use this command!`)
+            message.channel.send(`${message.author.username}, You do not have permission to use this command!`)
         }
     }
 
@@ -281,7 +281,7 @@ client.on('messageCreate',async message => {
             client.guilds.cache.get(message.guildId).members.cache.get(client.user.id).setNickname(nick);
             message.channel.send(`✔  Nickname changed to ${nick}`);
         } else {
-            message.channel.send(`❌  You are not allowed to change the nickname!`);
+            message.channel.send(`❌ You are not allowed to change the nickname!`);
         }
     }
     // list of guilds the bot is in with id
@@ -307,7 +307,7 @@ client.on('messageCreate',async message => {
             client.guilds.cache.get(guildid).leave();
             message.channel.send(`✔  Left guild ${guildid}`);
         } else {
-            message.channel.send(`❌  You are not allowed to leave a guild!`);
+            message.channel.send(`❌ You are not allowed to leave a guild!`);
         }
     }
     if(message.content == prefix+'stats') {
