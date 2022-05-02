@@ -30,8 +30,8 @@ global.developers = [
 
 var activities = [
 	{ msg: 'Minecraft', type: 'WATCHING' },
-	{ msg: 'Survival', type: 'PLAYING' },
-    { msg: 'RP', type: 'PLAYING'},
+	// { msg: 'Survival', type: 'PLAYING' },
+    { msg: 'Enhanced Survival', type: 'PLAYING'},
     { msg: 'PVP Battles', type: 5 },
     // { msg: '', type: '' },
 ];
@@ -39,8 +39,8 @@ var activities = [
 var mcServers = [
     { order: 1, ip: 'plutomc.xyz', name: 'Main Server', info: '_No Info Given_' },
     { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
-    { order: 3, ip: '135.125.52.200:25599', name: 'Survival', info: 'Get Mining, Get Fighting!' },
-    { order: 4, ip: '51.68.204.146:25570', name: 'RP', info: 'Let your fantasy role-play begin!' },
+    { order: 3, ip: '192.0.2.1', name: 'Rebranding', info: 'Rebranding' },
+    { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
     // { order: 5, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
     // { order: 6, ip: '192.0.2.1', name: 'Skyblock', info: '_No Info Given_' },
 ];
@@ -77,7 +77,7 @@ setInterval(() => {
                     serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n**Info:** ${servers.info}\n\n`;
                 } else {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462> | **Info:** ${servers.info}\n`;
+                    serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n**Info:** ${servers.info}\n\n`;
                 }
             }, err => {
                 console.log(err);
@@ -85,15 +85,29 @@ setInterval(() => {
         });
         //wait till foreach has finished
         setTimeout(() => {
+            let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8", {'flags': 'r+'}))
+
+            if(!prefixes[message.guild.id]){
+                prefixes[message.guild.id] = {
+                    prefixes: config.prefix
+                };
+            }
+
+            let prefix = prefixes[message.guild.id].prefixes;
+
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
             .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
+            const HowToJoin = new MessageEmbed()
+            .setColor(randomHex())
+            .setTitle('How To Join')
+            .setDescription(`Use the command\n**${prefix}bedrock**: to get info on how to join through console,mobile or pc\n**${prefix}java**: to get info on how to join through java`)
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
-            message.edit({ embeds: [Status] });
+            message.edit({ embeds: [Status, HowToJoin] });
         }, mcServers.length * 1e3);
         });
 }, 6e5);
@@ -123,19 +137,20 @@ client.on('messageCreate',async message => {
                     serverList = serverList + `**${servers.name}:** <:Tick:867432833063452733> ${nowplayers}/${maxplayers}\n**Info:** ${servers.info}\n\n`;
                 } else {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
-                    serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462> | **Info:** ${servers.info}\n`;
-                }
+                    serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n**Info:** ${servers.info}\n\n`;                }
             }, err => {
                 console.log(err);
             });
         });
         //wait till foreach has finished
         setTimeout(() => {
+            console.log(serverList);
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
-            // .addField('Servers', serverList)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version`)
+            // .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
+            .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
@@ -149,12 +164,17 @@ client.on('messageCreate',async message => {
         const Help = new MessageEmbed()
         .setColor(randomHex())
         .setTitle('Help')
-        .addField(`**${prefix}help**`, '`for this list of commands`')
-        .addField(`**${prefix}status**`, '`for the live server status`')
-        .addField(`**More Coming Soon**`, '`Soon™`')
+        .addField(`**${prefix}help**`, '`For this list of commands`', true)
+        .addField(`**${prefix}status**`, '`For the live server status`', true)
+        .addField(`**${prefix}bedrock**`, '`A help command for joining the server from bedrock`', true)
+        .addField(`**${prefix}java**`, '`A help command for joining the server from java`', true)
+        .addField(`** **`, '**Minecraft staff commands**')
         .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
         .addField(`**${prefix}sannounce**`, '`Survival announements, will be mostly used by DarkMatter`', true)
-        .addField(`**${prefix}rpannounce**`, '`RP announements, will be mostly used by IHaveCleanToes`', true)
+        .addField(`**${prefix}esannounce**`, '`ES announements, will be mostly used by IHaveCleanToes`', true)
+        .addField(`** **`, '**Event staff commands**')
+        .addField(`**${prefix}eannounce**`, '`Event announcements, will be used by the event staff`', true)
+        .addField(`**__${prefix}startevent__**`, '`Start an event with a simple command`', true)
         .setTimestamp()
         .setFooter({ text: footer });
         // send embed
@@ -195,6 +215,8 @@ client.on('messageCreate',async message => {
             const args = message.content.substring(prefix.length).split(" ");
             // const command = args.shift().toLowerCase();
             const announcement = args.slice(1).join(" ");
+            const attachment = message.attachments.first();
+            const url = attachment ? attachment.url : null;
             if (announcement.length < 1) {
                 message.channel.send('Please enter a message to announce.');
             } else {
@@ -206,6 +228,7 @@ client.on('messageCreate',async message => {
                 .setTimestamp()
                 .setFooter({ text: footer });
                 // send embed
+                if (url) Announcement.setImage(url);
                 message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
                 // delete message after sending
                 message.delete();
@@ -224,6 +247,8 @@ client.on('messageCreate',async message => {
             const args = message.content.substring(prefix.length).split(" ");
             // const command = args.shift().toLowerCase();
             const announcement = args.slice(1).join(" ");
+            const attachment = message.attachments.first();
+            const url = attachment ? attachment.url : null;
             if (announcement.length < 1) {
                 message.channel.send('Please enter a message to announce.');
             } else {
@@ -235,6 +260,7 @@ client.on('messageCreate',async message => {
                 .setTimestamp()
                 .setFooter({ text: footer });
                 // send embed
+                if (url) Announcement.setImage(url);
                 message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
                 // delete message after sending
                 message.delete();
@@ -245,24 +271,27 @@ client.on('messageCreate',async message => {
         }
     }
 
-    if (message.content.startsWith(prefix+'rpannounce')) {
+    if (message.content.startsWith(prefix+'esannounce')) {
         //only people with a role can use this command
         if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
         // if (message.author.id === '200612445373464576') {
             const args = message.content.substring(prefix.length).split(" ");
             // const command = args.shift().toLowerCase();
             const announcement = args.slice(1).join(" ");
+            const attachment = message.attachments.first();
+            const url = attachment ? attachment.url : null;
             if (announcement.length < 1) {
                 message.channel.send('Please enter a message to announce.');
             } else {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor('#AA0000')
-                .setTitle('⚔️ RP Announcement - '+message.author.username)
+                .setTitle('⚔️ Enhanced Survival Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
                 // send embed
+                if (url) Announcement.setImage(url);
                 message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
                 // delete message after sending
                 message.delete();
@@ -273,6 +302,62 @@ client.on('messageCreate',async message => {
         }
     }
 
+    if (message.content.startsWith(prefix+'eannounce')) {
+        //only people with a role can use this command
+        if (!message.member.roles.cache.has(parseInt(process.env.EVENTANNOUNCEROLE))) {
+        // if (message.author.id === '200612445373464576') {
+            const args = message.content.substring(prefix.length).split(" ");
+            // const command = args.shift().toLowerCase();
+            const announcement = args.slice(1).join(" ");
+            const attachment = message.attachments.first();
+            const url = attachment ? attachment.url : null;
+            if (announcement.length < 1) {
+                message.channel.send('Please enter a message to announce.');
+            } else {
+                // embed
+                const Announcement = new MessageEmbed()
+                .setColor('#00AA00')
+                .setTitle('🎧 Event Announcement - '+message.author.username)
+                .setDescription(announcement)
+                .setTimestamp()
+                .setFooter({ text: footer });
+                // send embed
+                if (url) Announcement.setImage(url);
+                message.channel.send({ embeds: [Announcement], content: '<@&778046989048741918>' });
+                // delete message after sending
+                message.delete();
+            }
+        } else {
+            message.delete();
+            message.channel.send(`${message.author.username}, You do not have permission to use this command!`)
+        }
+    }
+
+    // create an event
+
+
+    // help command from bedrock players
+    if (message.content.startsWith(prefix+'bedrock')) {
+        const Bedrock = new MessageEmbed()
+        .setColor(randomHex())
+        .setTitle('📜 Bedrock Players Help')
+        .addField("Xbox one", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#xbox-one")
+        .addField("Switch", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#nintendo-switch")
+        .addField("Playstation 4", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#playstation-4")
+        .addField("Other ways", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#alternative-methods")
+        .setDescription("\n**If you need anymore help you can always contact a minecraft staff member.**\n")
+        .setFooter({ text: footer });
+        message.channel.send({ embeds: [Bedrock] });
+    }
+
+    if (message.content.startsWith(prefix+'java')) {
+        const Bedrock = new MessageEmbed()
+        .setColor(randomHex())
+        .setTitle('📜 Java Players Help')
+        .setDescription('Coming soon!')
+        .setFooter({ text: footer });
+        message.channel.send({ embeds: [Bedrock] });
+    }
 
     // change the nickname of the bot
     if (message.content.startsWith(prefix+'nick')) {
