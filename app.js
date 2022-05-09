@@ -30,7 +30,7 @@ global.developers = [
 
 var activities = [
 	{ msg: 'Minecraft', type: 'WATCHING' },
-	// { msg: 'Survival', type: 'PLAYING' },
+	{ msg: 'Prison', type: 'PLAYING' },
     { msg: 'Enhanced Survival', type: 'PLAYING'},
     { msg: 'PVP Battles', type: 5 },
     // { msg: '', type: '' },
@@ -39,7 +39,7 @@ var activities = [
 var mcServers = [
     { order: 1, ip: 'plutomc.xyz', name: 'Main Server', info: '_No Info Given_' },
     { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
-    { order: 3, ip: '192.0.2.1', name: 'Rebranding', info: 'Rebranding' },
+    { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: '**Under Construction**' },
     { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
     // { order: 5, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
     // { order: 6, ip: '192.0.2.1', name: 'Skyblock', info: '_No Info Given_' },
@@ -144,7 +144,7 @@ client.on('messageCreate',async message => {
         });
         //wait till foreach has finished
         setTimeout(() => {
-            console.log(serverList);
+            // console.log(serverList);
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
@@ -170,11 +170,11 @@ client.on('messageCreate',async message => {
         .addField(`**${prefix}java**`, '`A help command for joining the server from java`', true)
         .addField(`** **`, '**Minecraft staff commands**')
         .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
-        .addField(`**${prefix}sannounce**`, '`Survival announements, will be mostly used by DarkMatter`', true)
+        .addField(`**${prefix}pannounce**`, '`Prison announements, will be mostly used by DarkMatter`', true)
         .addField(`**${prefix}esannounce**`, '`ES announements, will be mostly used by IHaveCleanToes`', true)
         .addField(`** **`, '**Event staff commands**')
         .addField(`**${prefix}eannounce**`, '`Event announcements, will be used by the event staff`', true)
-        .addField(`**__${prefix}startevent__**`, '`Start an event with a simple command`', true)
+        .addField(`**~~${prefix}startevent~~**`, '`Start an event with a simple command`', true)
         .setTimestamp()
         .setFooter({ text: footer });
         // send embed
@@ -240,7 +240,7 @@ client.on('messageCreate',async message => {
     }
 
 
-    if (message.content.startsWith(prefix+'sannounce')) {
+    if (message.content.startsWith(prefix+'pannounce')) {
         //only people with a role can use this command
         if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
         // if (message.author.id === '200612445373464576') {
@@ -255,7 +255,7 @@ client.on('messageCreate',async message => {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor('#55FF55')
-                .setTitle('🛠️ Survival Announcement - '+message.author.username)
+                .setTitle('👮 Prison Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
@@ -424,6 +424,14 @@ client.on('messageCreate',async message => {
                 message.channel.send({ embeds: [Stats] });
             });
     }
+
+
+    // reply to a user when the message they send contains the ip
+    if (message.content.includes('ip')) {
+        message.reply(`The server IP is: \`plutomc.xyz\``);
+    }
+
+
 });
 
 
