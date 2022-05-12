@@ -428,7 +428,9 @@ client.on('messageCreate',async message => {
 
     // reply to a user when the message they send contains the ip
     if (message.content.includes('ip')) {
-        message.reply(`The server IP is: \`plutomc.xyz\``);
+        if(message.channel.id === "956221589773516882" || message.channel.id === "956221826890092574") {
+            message.reply(`The server IP is: \`plutomc.xyz\``);
+        }
     }
 
 
