@@ -29,10 +29,11 @@ global.developers = [
 ];
 
 var activities = [
-	{ msg: 'Minecraft', type: 'WATCHING' },
-	{ msg: 'Prison', type: 'PLAYING' },
-    { msg: 'Enhanced Survival', type: 'PLAYING'},
-    { msg: 'PVP Battles', type: 5 },
+    { msg: appversion, type: 'WATCHING' },
+	// { msg: 'Minecraft', type: 'WATCHING' },
+	// { msg: 'Prison', type: 'PLAYING' },
+    // { msg: 'Enhanced Survival', type: 'PLAYING'},
+    //{ msg: 'PVP Battles', type: 5 },
     // { msg: '', type: '' },
 ];
 

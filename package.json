@@ -1,6 +1,6 @@
 {
   "name": "plutobot",
-  "version": "1.11.20",
+  "version": "1.11.21",
   "description": "bot for plutomc",
   "main": "app.js",
   "scripts": {
