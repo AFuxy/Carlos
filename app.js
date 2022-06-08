@@ -98,7 +98,7 @@ setInterval(() => {
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.19\`\n**BEDROCK:** We currently do not support bedrock\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             const HowToJoin = new MessageEmbed()
             .setColor(randomHex())
@@ -148,7 +148,7 @@ client.on('messageCreate',async message => {
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version`)
+            .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.19\`\n**BEDROCK:** We currently do not support bedrock`)
             // .setDescription(`**IP:** plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             .addField('Servers', serverList)
             .setTimestamp()
@@ -172,6 +172,7 @@ client.on('messageCreate',async message => {
         .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
         .addField(`**${prefix}pannounce**`, '`Prison announements, will be mostly used by DarkMatter`', true)
         .addField(`**${prefix}esannounce**`, '`ES announements, will be mostly used by IHaveCleanToes`', true)
+        .addField(`**${prefix}fsannounce**`, '`Faction announements, will be mostly used by PIE`', true)
         .addField(`** **`, '**Event staff commands**')
         .addField(`**${prefix}eannounce**`, '`Event announcements, will be used by the event staff`', true)
         .addField(`**~~${prefix}startevent~~**`, '`Start an event with a simple command`', true)
@@ -229,7 +230,7 @@ client.on('messageCreate',async message => {
                 .setFooter({ text: footer });
                 // send embed
                 if (url) Announcement.setImage(url);
-                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' }).then(message => message.react("❤️"));
                 // delete message after sending
                 message.delete();
             }
@@ -254,14 +255,14 @@ client.on('messageCreate',async message => {
             } else {
                 // embed
                 const Announcement = new MessageEmbed()
-                .setColor('#55FF55')
+                .setColor('#FFFF55')
                 .setTitle('👮 Prison Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
                 // send embed
                 if (url) Announcement.setImage(url);
-                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' }).then(message => message.react("❤️"));
                 // delete message after sending
                 message.delete();
             }
@@ -285,14 +286,45 @@ client.on('messageCreate',async message => {
             } else {
                 // embed
                 const Announcement = new MessageEmbed()
-                .setColor('#AA0000')
+                .setColor('#FFAA00')
                 .setTitle('⚔️ Enhanced Survival Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
                 // send embed
                 if (url) Announcement.setImage(url);
-                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' });
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' }).then(message => message.react("❤️"));
+                // delete message after sending
+                message.delete();
+            }
+        } else {
+            message.delete();
+            message.channel.send(`${message.author.username}, You do not have permission to use this command!`)
+        }
+    }
+
+    if (message.content.startsWith(prefix+'fannounce')) {
+        //only people with a role can use this command
+        if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
+        // if (message.author.id === '200612445373464576') {
+            const args = message.content.substring(prefix.length).split(" ");
+            // const command = args.shift().toLowerCase();
+            const announcement = args.slice(1).join(" ");
+            const attachment = message.attachments.first();
+            const url = attachment ? attachment.url : null;
+            if (announcement.length < 1) {
+                message.channel.send('Please enter a message to announce.');
+            } else {
+                // embed
+                const Announcement = new MessageEmbed()
+                .setColor('#FF5555')
+                .setTitle('🏰 Factions Announcement - '+message.author.username)
+                .setDescription(announcement)
+                .setTimestamp()
+                .setFooter({ text: footer });
+                // send embed
+                if (url) Announcement.setImage(url);
+                message.channel.send({ embeds: [Announcement], content: '<@&950857941228077057>' }).then(message => message.react("❤️"));
                 // delete message after sending
                 message.delete();
             }
@@ -323,7 +355,7 @@ client.on('messageCreate',async message => {
                 .setFooter({ text: footer });
                 // send embed
                 if (url) Announcement.setImage(url);
-                message.channel.send({ embeds: [Announcement], content: '<@&778046989048741918>' });
+                message.channel.send({ embeds: [Announcement], content: '<@&778046989048741918>' }).then(message => message.react("❤️"));
                 // delete message after sending
                 message.delete();
             }
