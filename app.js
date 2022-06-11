@@ -42,8 +42,8 @@ var mcServers = [
     { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
     { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: 'Mine your way to the top in OP Prison!' },
     { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
-    // { order: 5, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
-    // { order: 6, ip: '192.0.2.1', name: 'Skyblock', info: '_No Info Given_' },
+    { order: 5, ip: '51.89.194.163:25576', name: 'Skyblock', info: 'From lore to custom items, Super Skyblock has got you covered!' },
+    // { order: 6, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
 ];
 
 //random hex code generator
@@ -173,7 +173,7 @@ client.on('messageCreate',async message => {
         .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
         .addField(`**${prefix}pannounce**`, '`Prison announements, will be mostly used by DarkMatter`', true)
         .addField(`**${prefix}esannounce**`, '`ES announements, will be mostly used by IHaveCleanToes`', true)
-        .addField(`**${prefix}fsannounce**`, '`Faction announements, will be mostly used by PIE`', true)
+        .addField(`**${prefix}sbsannounce**`, '`Skyblock announements, will be mostly used by PIE`', true)
         .addField(`** **`, '**Event staff commands**')
         .addField(`**${prefix}eannounce**`, '`Event announcements, will be used by the event staff`', true)
         .addField(`**~~${prefix}startevent~~**`, '`Start an event with a simple command`', true)
@@ -319,7 +319,7 @@ client.on('messageCreate',async message => {
                 // embed
                 const Announcement = new MessageEmbed()
                 .setColor('#FF5555')
-                .setTitle('🏰 Factions Announcement - '+message.author.username)
+                .setTitle('🌌 Skyblock Announcement - '+message.author.username)
                 .setDescription(announcement)
                 .setTimestamp()
                 .setFooter({ text: footer });
@@ -460,8 +460,8 @@ client.on('messageCreate',async message => {
 
 
     // reply to a user when the message they send contains the ip
-    if (message.content.includes('ip')) {
-        if(message.channel.id === "956221589773516882" || message.channel.id === "956221826890092574") {
+    if (message.content.endsWith('ip') || message.content.startsWith('ip') || message.content.endsWith('ip?') || message.content.startsWith('ip?') || message.content.startsWith(prefix+'ip')) {
+        if(message.channel.id === "975851931895488512" || message.channel.id === "956221589773516882") {
             message.reply(`The server IP is: \`plutomc.xyz\``);
         }
     }
