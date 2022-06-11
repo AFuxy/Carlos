@@ -173,7 +173,7 @@ client.on('messageCreate',async message => {
         .addField(`**${prefix}announce**`, '`General announcements, mostly won\'t be used by anyone.`', true)
         .addField(`**${prefix}pannounce**`, '`Prison announements, will be mostly used by DarkMatter`', true)
         .addField(`**${prefix}esannounce**`, '`ES announements, will be mostly used by IHaveCleanToes`', true)
-        .addField(`**${prefix}sbsannounce**`, '`Skyblock announements, will be mostly used by PIE`', true)
+        .addField(`**${prefix}sbannounce**`, '`Skyblock announements, will be mostly used by PIE`', true)
         .addField(`** **`, '**Event staff commands**')
         .addField(`**${prefix}eannounce**`, '`Event announcements, will be used by the event staff`', true)
         .addField(`**~~${prefix}startevent~~**`, '`Start an event with a simple command`', true)
@@ -304,7 +304,7 @@ client.on('messageCreate',async message => {
         }
     }
 
-    if (message.content.startsWith(prefix+'fannounce')) {
+    if (message.content.startsWith(prefix+'sbannounce')) {
         //only people with a role can use this command
         if (!message.member.roles.cache.has(parseInt(process.env.ANNOUNCEROLE))) {
         // if (message.author.id === '200612445373464576') {
