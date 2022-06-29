@@ -319,8 +319,8 @@ client.on('interactionCreate', async (interaction) => {
                 .setDescription(AnnouncementText)
                 .setTimestamp()
                 .setFooter({ text: footer });
-            client.channels.cache.get(AnnouncementChannel).send({ content: `<@&950857941228077057>`, embeds: [Announcement] });
-            interaction.reply({ content: "Announcement sent", ephemeral: true});
+            client.channels.cache.get(AnnouncementChannel).send({ content: `<@&950857941228077057>`, embeds: [Announcement] }).then(message => message.react("❤️"));
+            interaction.reply({ content: "Announcement sent", ephemeral: true})
         }catch(err){
             console.log(`Command: Modal, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason: ${err}`);
             await interaction.reply({ content: "Something went wrong", ephemeral: true });
