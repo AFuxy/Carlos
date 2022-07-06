@@ -418,7 +418,7 @@ setInterval(() => {
             const HowToJoin = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('How To Join')
-            .setDescription(`Use the command\n**${prefix}bedrock**: to get info on how to join through console,mobile or pc\n**${prefix}java**: to get info on how to join through java`)
+            .setDescription(`Use the command\n**/bedrock**: to get info on how to join through console,mobile or pc\n**/java**: to get info on how to join through java`)
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
