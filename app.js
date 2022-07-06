@@ -34,7 +34,7 @@ global.mcServers = [
     { order: 1, ip: 'play.plutomc.xyz', name: 'Main Server', info: '_No Info Given_' },
     { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
     { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: 'Mine your way to the top in OP Prison!' },
-    // { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
+    { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
     { order: 5, ip: '51.89.194.163:25576', name: 'Skyblock', info: 'From lore to custom items, Super Skyblock has got you covered!' },
     // { order: 6, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
 ];
@@ -305,12 +305,19 @@ client.on('interactionCreate', async (interaction) => {
 
             if(AnnouncementType == "normal"){
                 var AnnouncementType2 = "📜 General Announcement";
+                var AnnouncementPing2 = config.normal;
             }else if(AnnouncementType == "prison"){
                 var AnnouncementType2 = "👮 Prison Announcement - "+interaction.user.username;
+                var AnnouncementPing2 = config.prison;
             }else if(AnnouncementType == "skyblock"){
                 var AnnouncementType2 = "🌌 Skyblock Announcement - "+interaction.user.username;
+                var AnnouncementPing2 = config.skyblock;
+            }else if(AnnouncementType == "es"){
+                var AnnouncementType2 = "⚔️ ES Announcement - "+interaction.user.username;
+                var AnnouncementPing2 = config.es;
             }else{
                 var AnnouncementType2 = "An Announcement - "+interaction.user.username;
+                var AnnouncementPing2 = config.normal;
             }
 
             const Announcement = new MessageEmbed()
@@ -319,7 +326,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setDescription(AnnouncementText)
                 .setTimestamp()
                 .setFooter({ text: footer });
-            client.channels.cache.get(AnnouncementChannel).send({ content: `<@&950857941228077057>`, embeds: [Announcement] }).then(message => message.react("❤️"));
+            client.channels.cache.get(AnnouncementChannel).send({ content: `<@&${AnnouncementPing2}>`, embeds: [Announcement] }).then(message => message.react("❤️"));
             interaction.reply({ content: "Announcement sent", ephemeral: true})
         }catch(err){
             console.log(`Command: Modal, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason: ${err}`);
