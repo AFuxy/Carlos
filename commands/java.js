@@ -10,6 +10,7 @@ module.exports = {
         var Java = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('📜 Java Players Help')
+            .addField("IP", "mcs.afuxy.com")
             .setDescription('Coming soon!')
             .setFooter({ text: footer });
         await interaction.reply({ embeds: [Java], ephemeral: true });

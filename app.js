@@ -31,11 +31,11 @@ global.developers = [
     '200612445373464576'
 ];
 global.mcServers = [
-    { order: 1, ip: 'play.plutomc.xyz', name: 'Main Server', info: '_No Info Given_' },
-    { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
-    { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: 'Mine your way to the top in OP Prison!' },
-    { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
-    { order: 5, ip: '51.89.194.163:25576', name: 'Skyblock', info: 'From lore to custom items, Super Skyblock has got you covered!' },
+    { order: 1, ip: 'mcs.afuxy.com', name: 'MCS', info: 'MC Showdown' },
+    // { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
+    // { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: 'Mine your way to the top in OP Prison!' },
+    // { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
+    // { order: 5, ip: '51.89.194.163:25576', name: 'Skyblock', info: 'From lore to custom items, Super Skyblock has got you covered!' },
     // { order: 6, ip: '192.0.2.1', name: 'Factions', info: '_No Info Given_' },
 ];
 
@@ -308,13 +308,13 @@ client.on('interactionCreate', async (interaction) => {
                 var AnnouncementPing2 = config.normal;
             }else if(AnnouncementType == "prison"){
                 var AnnouncementType2 = "👮 Prison Announcement - "+interaction.user.username;
-                var AnnouncementPing2 = config.prison;
+                var AnnouncementPing2 = config.prison || config.normal;
             }else if(AnnouncementType == "skyblock"){
                 var AnnouncementType2 = "🌌 Skyblock Announcement - "+interaction.user.username;
-                var AnnouncementPing2 = config.skyblock;
+                var AnnouncementPing2 = config.skyblock || config.normal;
             }else if(AnnouncementType == "es"){
                 var AnnouncementType2 = "⚔️ ES Announcement - "+interaction.user.username;
-                var AnnouncementPing2 = config.es;
+                var AnnouncementPing2 = config.es || config.normal;
             }else{
                 var AnnouncementType2 = "An Announcement - "+interaction.user.username;
                 var AnnouncementPing2 = config.normal;
@@ -413,7 +413,7 @@ setInterval(() => {
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** play.plutomc.xyz\n**VERSIONS:** \`1.18 - 1.19\`\n**BEDROCK:** \`1.19.0\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             const HowToJoin = new MessageEmbed()
             .setColor(randomHex())
@@ -463,8 +463,8 @@ client.on('messageCreate',async message => {
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** play.plutomc.xyz\n**VERSIONS:** \`1.18 - 1.19\`\n**BEDROCK:** \`1.19.0\``)
-            // .setDescription(`**IP:** play.plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\``)
+            // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });
@@ -776,7 +776,7 @@ client.on('messageCreate',async message => {
     // reply to a user when the message they send contains the ip
     // if (message.content.endsWith('ip') || message.content.startsWith('ip') || message.content.endsWith('ip?') || message.content.startsWith('ip?') || message.content.startsWith(prefix+'ip')) {
     //     if(message.channel.id === "975851931895488512" || message.channel.id === "956221589773516882") {
-    //         message.reply(`The server IP is: \`play.plutomc.xyz\``);
+    //         message.reply(`The server IP is: \`mcs.afuxy.com\``);
     //     }
     // }
 

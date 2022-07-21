@@ -31,8 +31,8 @@ module.exports = {
             const Status = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** play.plutomc.xyz\n**VERSIONS:** \`1.18 - 1.19\`\n**BEDROCK:** \`1.19.0\``)
-            // .setDescription(`**IP:** play.plutomc.xyz\n**VERSIONS:** \`1.18 - 1.18.2\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\``)
+            // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             .addField('Servers', serverList)
             .setTimestamp()
             .setFooter({ text: footer });

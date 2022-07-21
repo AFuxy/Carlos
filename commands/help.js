@@ -9,7 +9,6 @@ module.exports = {
     async execute(interaction){
         var commandOrder = [
             'help',
-            'announce',
             'status',
             'bedrock',
             'java'

@@ -10,6 +10,7 @@ module.exports = {
         var Bedrock = new MessageEmbed()
             .setColor(randomHex())
             .setTitle('📜 Bedrock Players Help')
+            .addField("IP and Port", "IP: mcs.afuxy.com & Port: 25571")
             .addField("Xbox one", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#xbox-one")
             .addField("Switch", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#nintendo-switch")
             .addField("Playstation 4", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#playstation-4")

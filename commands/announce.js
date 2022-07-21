@@ -13,10 +13,7 @@ module.exports = {
             description: 'What type of announcement do you want to make?',
             type: 'STRING',
             choices: [
-                {name: 'Normal', value: 'normal'},
-                {name: 'Prison', value: 'prison'},
-                {name: 'Skyblock', value: 'skyblock'},
-                {name: 'ES', value: 'es'},
+                {name: 'Normal', value: 'normal'}
             ],
             required: true
         },

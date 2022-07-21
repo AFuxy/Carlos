@@ -1,7 +1,7 @@
 {
-  "name": "plutobot",
-  "version": "2.13.27",
-  "description": "bot for plutomc",
+  "name": "carlos",
+  "version": "2.14.27",
+  "description": "bot for Carlos",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
