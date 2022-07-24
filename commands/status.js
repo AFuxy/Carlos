@@ -1,5 +1,8 @@
 const {
-    MessageEmbed
+    EmbedBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
 } = require("discord.js");
 const superagent = require('superagent');
 const randomHex = require('../app.js');
@@ -28,16 +31,26 @@ module.exports = {
         //wait till foreach has finished
         setTimeout(() => {
             // console.log(serverList);
-            const Status = new MessageEmbed()
+            const row = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setURL(`https://afuxy.com`)
+                .setLabel("Website")
+            );
+            const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
             .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\``)
             // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
-            .addField('Servers', serverList)
+            // .addField('Servers', serverList)
+            .addFields([
+                { name: 'Servers', value: serverList }
+            ])
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
-            interaction.editReply({ embeds: [Status], ephemeral: true });
+            interaction.editReply({ embeds: [Status], components: [row], ephemeral: true });
         }, mcServers.length * 1e3);
     }
 }

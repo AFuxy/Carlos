@@ -1,8 +1,11 @@
 const {
-    MessageEmbed,
-    MessageActionRow,
-    Modal,
-    TextInputComponent
+    EmbedBuilder,
+    ActionRowBuilder,
+    ModalBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    ApplicationCommandOptionType,
+    ChannelType
 } = require("discord.js");
 module.exports = {
     "name": "announce",
@@ -11,7 +14,7 @@ module.exports = {
         {
             name: 'announcetype',
             description: 'What type of announcement do you want to make?',
-            type: 'STRING',
+            type: ApplicationCommandOptionType.String,
             choices: [
                 {name: 'Normal', value: 'normal'}
             ],
@@ -20,7 +23,8 @@ module.exports = {
         {
             name: 'channel',
             description: 'What channel do you want to announce in?',
-            type: 'CHANNEL',
+            type: ApplicationCommandOptionType.Channel,
+            channel_types: [ChannelType.GuildText, ChannelType.GuildNews],
             required: true
         }
     ],
@@ -32,21 +36,21 @@ module.exports = {
         }else{
             // console.log(interaction.options.getChannel("channel"));
             // return;
-            var channelType = interaction.options.getChannel("channel").type;
-            if (channelType == "GUILD_TEXT" || channelType == "GUILD_NEWS"){
-                const modal = new Modal()
+            // var channelType = interaction.options.getChannel("channel").type;
+            // if (channelType == ChannelType.GuildText || channelType == ChannelType.GuildNews){
+                const modal = new ModalBuilder()
 			        .setCustomId(`announcement-${interaction.options.getString("announcetype")}-${interaction.options.getChannel("channel").id}`)
 			        .setTitle('What do you want to send?');
-                const announceText = new TextInputComponent()
+                const announceText = new TextInputBuilder()
 			        .setCustomId('announceText')
 			        .setLabel("Give us your best announcement!")
-			        .setStyle('PARAGRAPH');
-                const Text = new MessageActionRow().addComponents(announceText);
+			        .setStyle(TextInputStyle.Paragraph);
+                const Text = new ActionRowBuilder().addComponents(announceText);
                 modal.addComponents(Text);
 		        await interaction.showModal(modal);
-            }else{
-                await interaction.reply({ content: "Channel does not exist", ephemeral: true });
-            }
+            // }else{
+            //     await interaction.reply({ content: "Channel does not exist", ephemeral: true });
+            // }
         }
     }
 }

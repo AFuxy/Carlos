@@ -1,5 +1,5 @@
 const {
-    MessageEmbed, discord
+    EmbedBuilder, discord
 } = require("discord.js");
 const randomHex = require('../app.js');
 module.exports = {
@@ -18,10 +18,13 @@ module.exports = {
             let command = client.commands.get(commandName);
             commandlist = commandlist + `**/${commandName}** | \`${command.description}\`\n`;
         });
-        var Help = new MessageEmbed()
+        var Help = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle("Help")
-            .addField("Commands", commandlist)
+            // .addField("Commands", commandlist)
+            .addFields([
+                { name: 'Commands', value: commandlist }
+            ])
             .setFooter({ text: `${footer}`, iconURL: `${client.user.avatarURL()}` });
         await interaction.reply({ embeds: [Help], ephemeral: true });
     }

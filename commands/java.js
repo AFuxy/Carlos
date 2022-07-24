@@ -1,5 +1,5 @@
 const {
-    MessageEmbed
+    EmbedBuilder
 } = require("discord.js");
 const randomHex = require('../app.js');
 module.exports = {
@@ -7,10 +7,13 @@ module.exports = {
     "description": "Show some helpful join info for java",
     "setDMPermission": false,
     async execute(interaction){
-        var Java = new MessageEmbed()
+        var Java = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('📜 Java Players Help')
-            .addField("IP", "mcs.afuxy.com")
+            // .addField("IP", "mcs.afuxy.com")
+            .addFields([
+                { name: 'IP', value: 'mcs.afuxy.com' },
+            ])
             .setDescription('Coming soon!')
             .setFooter({ text: footer });
         await interaction.reply({ embeds: [Java], ephemeral: true });

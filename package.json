@@ -1,6 +1,6 @@
 {
   "name": "carlos",
-  "version": "2.14.27",
+  "version": "3.15.27",
   "description": "bot for Carlos",
   "main": "app.js",
   "scripts": {
@@ -9,12 +9,11 @@
   "author": "DarkMatter#1708",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/builders": "^0.15.0",
     "@discordjs/rest": "^0.5.0",
     "colors": "^1.4.0",
     "cpu-stat": "^2.0.1",
     "discord-api-types": "^0.35.0",
-    "discord.js": "^13.8.1",
+    "discord.js": "14.0.3",
     "dotenv": "^16.0.0",
     "fs": "^0.0.1-security",
     "moment": "^2.29.1",

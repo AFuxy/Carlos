@@ -1,9 +1,8 @@
 // import discord.js
-const discord = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { MessageEmbed, Permissions } = require('discord.js');
-const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
+const { Client, EmbedBuilder, Permissions, InteractionType, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection } = require('discord.js');
+// const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
 // import superagent
 const superagent = require('superagent');
 // import .env
@@ -24,7 +23,7 @@ const os = require("os");
 const cpuStat = require("cpu-stat");
 
 // client intents 
-client = new discord.Client({ intents: [discord.Intents.FLAGS.GUILDS, discord.Intents.FLAGS.GUILD_MESSAGES] });
+client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 global.footer = "Created by DarkMatter#1708 • Version " + appversion;
 global.developers = [
@@ -59,7 +58,7 @@ setInterval(() => {
 }, 15e3);
 
 console.log('➤  '.gray + "Started loading commands".gray);
-client.commands = new discord.Collection();
+client.commands = new Collection();
 let commandFiles = fs.readdirSync("./commands/").filter(file => file.endsWith('.js'));
 commandFiles.forEach(commandName => {
     let command = require(`./commands/${commandName}`);
@@ -216,17 +215,18 @@ client.once('ready', async () => {
 
 
 client.on('interactionCreate', async (interaction) => {
-	if (!interaction.isCommand() && !interaction.isButton() && !interaction.isModalSubmit() && !interaction.isContextMenu()) return;
+	if (interaction.type !== InteractionType.ApplicationCommand && !interaction.isButton() && interaction.type !== InteractionType.ModalSubmit && !interaction.type !== InteractionType.ContextMenu) return;
     // console.log(interaction);
 	
-    if (interaction.isCommand()) {
+    if (interaction.type === InteractionType.ApplicationCommand) {
         try{
             await client.commands.get(interaction.commandName).execute(interaction);
         }catch(err){
-            console.log(`Command: ${interaction.commandName}, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason: ${err}`);
+            console.log(`Command: ${interaction.commandName}, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason:`);
+            console.log(err);
             await interaction.reply({ content: "Something went wrong", ephemeral: true });
         }
-    } else if (interaction.isButton()) {
+    } else if (interaction.type === InteractionType.Button) {
         try{
             if (interaction.customId.startsWith("A")){
                 var acceptedvar = interaction.customId.split("-");
@@ -234,24 +234,32 @@ client.on('interactionCreate', async (interaction) => {
                 const Game = acceptedvar[3];
                 const URL = acceptedvar[4];
                 // await interaction.deleteReply();
-                let accepted = new discord.MessageEmbed()
+                let accepted = new EmbedBuilder()
                     .setColor("#00ff00")
                     .setTitle(`Suggestion Accepted | ${user.username}#${user.discriminator}`)
-                    .addField("User:", `<@${user.id}>`)
-                    .addField("Accepted:", `<@${interaction.user.id}>`)
+                    .addFields([
+                        { name: 'User:', value: `<@${user.id}>`},
+                        { name: 'Accepted:', value: `<@${interaction.user.id}>`},
+                    ])
+                    // .addField("User:", `<@${user.id}>`)
+                    // .addField("Accepted:", `<@${interaction.user.id}>`)
                     // .addField("Game:", Game)
                 // .addField("Channel:", "<#" + interaction.channel.id + ">")
                 .setTimestamp()
                 .setFooter({ text: `${footer}`, iconURL: `${client.user.avatarURL()}` });
                 if(Game == ""){
-                    accepted.addField("Game:", "NULL");
+                    // accepted.addField("Game:", "NULL");
+                    accepted.addFields([ { name: "Game:", value: "NULL" } ]);
                 }else{
-                    accepted.addField("Game:", Game);
+                    // accepted.addField("Game:", Game);
+                    accepted.addFields([ { name: "Game:", value: Game } ]);
                 }
                 if(URL == ""){
-                    accepted.addField("URL:", "NULL");
+                    // accepted.addField("URL:", "NULL");
+                    accepted.addFields([ { name: "URL:", value: "NULL" } ]);
                 }else{
-                    accepted.addField("URL:", URL);
+                    // accepted.addField("URL:", URL);
+                    accepted.addFields([ { name: "URL:", value: URL } ]);
                 }
                 //edit the message
                 await interaction.message.edit({ embeds: [accepted], components: [] });
@@ -265,24 +273,32 @@ client.on('interactionCreate', async (interaction) => {
                 const URL = declinedvar[4];
                 // await interaction.deleteReply();
                 //declined embed
-                let declined = new discord.MessageEmbed()
+                let declined = new EmbedBuilder()
                     .setColor("#ff0000")
                     .setTitle(`Suggestion Declined | ${user.username}#${user.discriminator}`)
-                    .addField("User:", `<@${user.id}>`)
-                    .addField("Declined:", `<@${interaction.user.id}>`)
+                    .addFields([
+                        { name: 'User:', value: `<@${user.id}>`},
+                        { name: 'Declined:', value: `<@${interaction.user.id}>`},
+                    ])
+                    // .addField("User:", `<@${user.id}>`)
+                    // .addField("Declined:", `<@${interaction.user.id}>`)
                     // .addField("Game:", Game)
                 // .addField("Channel:", "<#" + interaction.channel.id + ">")
                 .setTimestamp()
                 .setFooter({ text: `${footer}`, iconURL: `${client.user.avatarURL()}` });
                 if(Game == ""){
-                    declined.addField("Game:", "NULL");
+                    // declined.addField("Game:", "NULL");
+                    declined.addFields([ { name: "Game:", value: "NULL" } ]);
                 }else{
-                    declined.addField("Game:", Game);
+                    // declined.addField("Game:", Game);
+                    declined.addFields([ { name: "Game:", value: Game } ]);
                 }
                 if(URL == ""){
-                    declined.addField("URL:", "NULL");
+                    // declined.addField("URL:", "NULL");
+                    declined.addFields([ { name: "URL:", value: "NULL" } ]);
                 }else{
-                    declined.addField("URL:", URL);
+                    // declined.addField("URL:", URL);
+                    declined.addFields([ { name: "URL:", value: URL } ]);
                 }
                 //edit the message
                 await interaction.message.edit({ embeds: [declined], components: [] });
@@ -296,7 +312,7 @@ client.on('interactionCreate', async (interaction) => {
             console.log(`Command: button press, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason: ${err}`);
             await interaction.reply({ content: "Something went wrong", ephemeral: true });
         }
-    } else if (interaction.isModalSubmit()) {
+    } else if (interaction.type === InteractionType.ModalSubmit) {
         try{
             var AnnouncementSplit = interaction.customId.split("-");
             const AnnouncementText = interaction.fields.getTextInputValue('announceText');
@@ -320,7 +336,7 @@ client.on('interactionCreate', async (interaction) => {
                 var AnnouncementPing2 = config.normal;
             }
 
-            const Announcement = new MessageEmbed()
+            const Announcement = new EmbedBuilder()
                 .setColor(randomHex())
                 .setTitle(AnnouncementType2)
                 .setDescription(AnnouncementText)
@@ -332,30 +348,34 @@ client.on('interactionCreate', async (interaction) => {
             console.log(`Command: Modal, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason: ${err}`);
             await interaction.reply({ content: "Something went wrong", ephemeral: true });
         }
-    } else if (interaction.isContextMenu()){
+    } else if (interaction.type === InteractionType.ContextMenu){
         try{
             if (interaction.customId == "suggest"){
-                const row = new discord.MessageActionRow()
+                const row = new ActionRowBuilder()
                 .addComponents(
-                new discord.MessageButton()
+                new ButtonBuilder()
                     .setCustomId('Accept')
                     .setLabel('Accept')
                     .setStyle('SUCCESS')
                     .setDisabled(true)
             )
             .addComponents(
-                new discord.MessageButton()
+                new ButtonBuilder()
                     .setCustomId('Deny')
                     .setLabel('Deny')
                     .setStyle('DANGER')
                     .setDisabled(true)
             );
             const Game = interaction.fields.getTextInputValue('GameName');
-            var Suggest = new discord.MessageEmbed()
+            var Suggest = new EmbedBuilder()
                 .setColor("#ff8c00")
                 .setTitle("Suggestion | " + interaction.user.username + "#" + interaction.user.discriminator)
-                .addField("User:", "<@" + interaction.user.id + ">")
-                .addField("Game:", Game)
+                .addFields([
+                    { name: 'User:', value: `<@${interaction.user.id}>`},
+                    { name: 'Game:', value: Game},
+                ])
+                // .addField("User:", "<@" + interaction.user.id + ">")
+                // .addField("Game:", Game)
                 // .addField("Channel:", "<#" + interaction.channel.id + ">")
                 .setTimestamp()
                 .setFooter({ text: `${footer}`, iconURL: `${client.user.avatarURL()}` });
@@ -410,19 +430,26 @@ setInterval(() => {
 
             let prefix = prefixes[message.guild.id].prefixes;
 
-            const Status = new MessageEmbed()
+            const row = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setURL(`https://afuxy.com`)
+                .setLabel("Website")
+            );
+            const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
             .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
-            const HowToJoin = new MessageEmbed()
+            const HowToJoin = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('How To Join')
             .setDescription(`Use the command\n**/bedrock**: to get info on how to join through console,mobile or pc\n**/java**: to get info on how to join through java`)
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
-            message.edit({ embeds: [Status, HowToJoin] });
+            message.edit({ embeds: [Status, HowToJoin], components: [row] });
         }, mcServers.length * 1e3);
         });
 }, 6e5);
@@ -460,12 +487,15 @@ client.on('messageCreate',async message => {
         //wait till foreach has finished
         setTimeout(() => {
             // console.log(serverList);
-            const Status = new MessageEmbed()
+            const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
             .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.10\``)
             // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
-            .addField('Servers', serverList)
+            // .addField('Servers', serverList)
+            .addFields([
+                { name: 'Servers', value: serverList },
+            ])
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
@@ -476,7 +506,7 @@ client.on('messageCreate',async message => {
     // help command
     // if (message.content === prefix+'help') {
     //     message.channel.sendTyping()
-    //     const Help = new MessageEmbed()
+    //     const Help = new EmbedBuilder()
     //     .setColor(randomHex())
     //     .setTitle('Help')
     //     .addField(`**${prefix}help**`, '`For this list of commands`', true)
@@ -515,7 +545,7 @@ client.on('messageCreate',async message => {
     // when ating the bot send a message
     // if (message.content.includes(client.user.id)) {
     //     message.channel.sendTyping()
-    //     const embed = new MessageEmbed()
+    //     const embed = new EmbedBuilder()
     //     .setColor(randomHex())
     //     .setDescription("**The prefix is** `"+prefix+"`\nDo `"+prefix+"help` for more info")
     //     // .setTimestamp()
@@ -537,7 +567,7 @@ client.on('messageCreate',async message => {
     //             message.channel.send('Please enter a message to announce.');
     //         } else {
     //             // embed
-    //             const Announcement = new MessageEmbed()
+    //             const Announcement = new EmbedBuilder()
     //             .setColor(randomHex())
     //             .setTitle('📜 General Announcement')
     //             .setDescription(announcement)
@@ -569,7 +599,7 @@ client.on('messageCreate',async message => {
     //             message.channel.send('Please enter a message to announce.');
     //         } else {
     //             // embed
-    //             const Announcement = new MessageEmbed()
+    //             const Announcement = new EmbedBuilder()
     //             .setColor('#FFFF55')
     //             .setTitle('👮 Prison Announcement - '+message.author.username)
     //             .setDescription(announcement)
@@ -600,7 +630,7 @@ client.on('messageCreate',async message => {
     //             message.channel.send('Please enter a message to announce.');
     //         } else {
     //             // embed
-    //             const Announcement = new MessageEmbed()
+    //             const Announcement = new EmbedBuilder()
     //             .setColor('#FFAA00')
     //             .setTitle('⚔️ Enhanced Survival Announcement - '+message.author.username)
     //             .setDescription(announcement)
@@ -631,7 +661,7 @@ client.on('messageCreate',async message => {
     //             message.channel.send('Please enter a message to announce.');
     //         } else {
     //             // embed
-    //             const Announcement = new MessageEmbed()
+    //             const Announcement = new EmbedBuilder()
     //             .setColor('#FF5555')
     //             .setTitle('🌌 Skyblock Announcement - '+message.author.username)
     //             .setDescription(announcement)
@@ -662,7 +692,7 @@ client.on('messageCreate',async message => {
     //             message.channel.send('Please enter a message to announce.');
     //         } else {
     //             // embed
-    //             const Announcement = new MessageEmbed()
+    //             const Announcement = new EmbedBuilder()
     //             .setColor('#00AA00')
     //             .setTitle('🎧 Event Announcement - '+message.author.username)
     //             .setDescription(announcement)
@@ -685,7 +715,7 @@ client.on('messageCreate',async message => {
 
     // help command from bedrock players
     // if (message.content.startsWith(prefix+'bedrock')) {
-    //     const Bedrock = new MessageEmbed()
+    //     const Bedrock = new EmbedBuilder()
     //     .setColor(randomHex())
     //     .setTitle('📜 Bedrock Players Help')
     //     .addField("Xbox one", "https://wiki.geysermc.org/geyser/using-geyser-with-consoles/#xbox-one")
@@ -698,7 +728,7 @@ client.on('messageCreate',async message => {
     // }
 
     // if (message.content.startsWith(prefix+'java')) {
-    //     const Bedrock = new MessageEmbed()
+    //     const Bedrock = new EmbedBuilder()
     //     .setColor(randomHex())
     //     .setTitle('📜 Java Players Help')
     //     .setDescription('Coming soon!')
@@ -726,7 +756,7 @@ client.on('messageCreate',async message => {
         client.guilds.cache.forEach(guild => {
             guilds = guilds + `**${guild.name}** | ${guild.id}\n`;
         });
-        const Guilds = new MessageEmbed()
+        const Guilds = new EmbedBuilder()
         .setColor(randomHex())
         .setTitle('Guilds')
         .setDescription(guilds)
@@ -745,7 +775,7 @@ client.on('messageCreate',async message => {
             message.channel.send(`❌ You are not allowed to leave a guild!`);
         }
     }
-    if(message.content == prefix+'stats') {
+    if(message.content == '^stats') {
         message.channel.sendTyping()
         cpuStat.usagePercent(function(err, percent, seconds) {
 			if (err) {
@@ -755,18 +785,27 @@ client.on('messageCreate',async message => {
 			var duration = moment
 				.duration(client.uptime)
 				.format(" D [days], H [hrs], m [mins], s [secs]");
-			var Stats = new MessageEmbed()
+			var Stats = new EmbedBuilder()
 				.setTitle("*** Stats ***")
 				.setColor("#C0C0C0")
-				.addField("• Mem Usage",`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`,true)
-				.addField("• Uptime ", `${duration}`, true)
+				// .addField("• Mem Usage",`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`,true)
+				// .addField("• Uptime ", `${duration}`, true)
 				// .addField("• Discord.js", `v${version}`, true)
 				// .addField("• Node", `${process.version}`, true)
-                .addField("• Carlos", `\`v${appversion}\``, true)
-				.addField("• CPU",`\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
-				.addField("• CPU usage", `\`${percent.toFixed(2)}%\``, true)
-				.addField("• Arch", `\`${os.arch()}\``, true)
-				.addField("• Platform", `\`\`${os.platform()}\`\``, true)
+                // .addField("• Carlos", `\`v${appversion}\``, true)
+				// .addField("• CPU",`\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
+				// .addField("• CPU usage", `\`${percent.toFixed(2)}%\``, true)
+				// .addField("• Arch", `\`${os.arch()}\``, true)
+				// .addField("• Platform", `\`\`${os.platform()}\`\``, true)
+                .addFields([
+                    { name: '• Mem Usage', value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`, inline: true },
+                    { name: '• Uptime ', value: `${duration}`, inline: true },
+                    { name: '• Carlos', value: `\`v${appversion}\``, inline: true },
+                    { name: '• CPU', value: `\`\`\`md\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``, inline: true },
+                    { name: '• CPU usage', value: `\`${percent.toFixed(2)}%\``, inline: true },
+                    { name: '• Arch', value: `\`${os.arch()}\``, inline: true },
+                    { name: '• Platform', value: `\`\`${os.platform()}\`\``, inline: true }
+                ])
 				.setFooter({ text: footer });
                 message.channel.send({ embeds: [Stats] });
             });
