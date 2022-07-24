@@ -1,7 +1,7 @@
 // import discord.js
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { Client, EmbedBuilder, Permissions, InteractionType, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection } = require('discord.js');
+const { Client, ActivityType, EmbedBuilder, Permissions, InteractionType, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection } = require('discord.js');
 // const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
 // import superagent
 const superagent = require('superagent');
@@ -39,7 +39,7 @@ global.mcServers = [
 ];
 
 var activities = [
-    { msg: appversion, type: 'WATCHING' },
+    { msg: appversion, type: ActivityType.Watching },
 	// { msg: 'Minecraft', type: 'WATCHING' },
 	// { msg: 'Prison', type: 'PLAYING' },
     // { msg: 'Enhanced Survival', type: 'PLAYING'},
