@@ -434,8 +434,14 @@ setInterval(() => {
             .addComponents(
                 new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
-                .setURL(`https://afuxy.com`)
+                .setURL(`https://mcshowdown.afuxy.com`)
                 .setLabel("Website")
+            )
+            .addComponents(
+                new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setURL(`https://status.afuxy.com`)
+                .setLabel("Status")
             );
             const Status = new EmbedBuilder()
             .setColor(randomHex())
