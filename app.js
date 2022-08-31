@@ -446,7 +446,7 @@ setInterval(() => {
             const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.21\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** \`1.19.21\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             const HowToJoin = new EmbedBuilder()
             .setColor(randomHex())
@@ -496,8 +496,8 @@ client.on('messageCreate',async message => {
             const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** \`1.19.21\``)
-            // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** \`1.19.21\``)
+            // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             // .addField('Servers', serverList)
             .addFields([
                 { name: 'Servers', value: serverList },
