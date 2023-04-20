@@ -25,7 +25,7 @@ module.exports = {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n**Info:** ${servers.info}\n\n`;                }
             }, err => {
-                console.log(err);
+                // console.log(err);
             });
         });
         //wait till foreach has finished
@@ -47,7 +47,7 @@ module.exports = {
             const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** \`1.19.21\``)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.4\``)
             // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             // .addField('Servers', serverList)
             .addFields([

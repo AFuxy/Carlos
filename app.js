@@ -30,7 +30,7 @@ global.developers = [
     '200612445373464576'
 ];
 global.mcServers = [
-    { order: 1, ip: 'mcs.afuxy.com', name: 'MCS', info: 'MC Showdown' },
+    { order: 1, ip: '157.97.109.147:25565', name: 'MCS', info: 'MC Showdown' },
     // { order: 2, ip: '135.125.52.195:25579', name: 'Hub', info: 'The main hub where your adventure starts' },
     // { order: 3, ip: '135.125.52.200:25599', name: 'OP Prison', info: 'Mine your way to the top in OP Prison!' },
     // { order: 4, ip: '51.68.204.146:25570', name: 'Enhanced Survival', info: 'Survive and thrive in this new advanced survival!' },
@@ -223,7 +223,7 @@ client.on('interactionCreate', async (interaction) => {
             await client.commands.get(interaction.commandName).execute(interaction);
         }catch(err){
             console.log(`Command: ${interaction.commandName}, run by: ${interaction.user.username}#${interaction.user.discriminator} failed for the reason:`);
-            console.log(err);
+            // console.log(err);
             await interaction.reply({ content: "Something went wrong", ephemeral: true });
         }
     } else if (interaction.type === InteractionType.Button) {
@@ -315,9 +315,13 @@ client.on('interactionCreate', async (interaction) => {
     } else if (interaction.type === InteractionType.ModalSubmit) {
         try{
             var AnnouncementSplit = interaction.customId.split("-");
-            const AnnouncementText = interaction.fields.getTextInputValue('announceText');
+            console.log(interaction.customId);
+            // var AnnouncementTextSplit = interaction.fields.customId.split("-");
             const AnnouncementType = AnnouncementSplit[1];
             const AnnouncementChannel = AnnouncementSplit[2];
+            const AnnouncementImage = AnnouncementSplit[3];
+            console.log(AnnouncementType, AnnouncementChannel, AnnouncementImage)
+            const AnnouncementText = interaction.fields.getTextInputValue(`announceText`);
 
             if(AnnouncementType == "normal"){
                 var AnnouncementType2 = "📜 General Announcement";
@@ -342,6 +346,9 @@ client.on('interactionCreate', async (interaction) => {
                 .setDescription(AnnouncementText)
                 .setTimestamp()
                 .setFooter({ text: footer });
+            if(AnnouncementImage !== "noImage"){
+                Announcement.setImage(`https://cdn.discordapp.com/ephemeral-attachments/994190717788373033/${AnnouncementImage}`);
+            }
             client.channels.cache.get(AnnouncementChannel).send({ content: `<@&${AnnouncementPing2}>`, embeds: [Announcement] }).then(message => message.react("❤️"));
             interaction.reply({ content: "Announcement sent", ephemeral: true})
         }catch(err){
@@ -415,7 +422,7 @@ setInterval(() => {
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n**Info:** ${servers.info}\n\n`;
                 }
             }, err => {
-                console.log(err);
+                // console.log(err);
             });
         });
         //wait till foreach has finished
@@ -446,12 +453,12 @@ setInterval(() => {
             const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** \`1.19.21\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.4\`\n\n`+serverList+`\n**This updates every 10 minutes**`)
             // .addField('Servers', serverList)
             const HowToJoin = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('How To Join')
-            .setDescription(`Use the command\n**/bedrock**: to get info on how to join through console,mobile or pc\n**/java**: to get info on how to join through java`)
+            .setDescription(`Use the command\n**/java**: to get info on how to join through java`)
             .setTimestamp()
             .setFooter({ text: footer });
             // send embed
@@ -487,7 +494,7 @@ client.on('messageCreate',async message => {
                     // serverList = serverList + `**${servers.name}** | <:Cross:867432869814075462>\n`;
                     serverList = serverList + `**${servers.name}:** <:Cross:867432869814075462>\n**Info:** ${servers.info}\n\n`;                }
             }, err => {
-                console.log(err);
+                // console.log(err);
             });
         });
         //wait till foreach has finished
@@ -496,7 +503,7 @@ client.on('messageCreate',async message => {
             const Status = new EmbedBuilder()
             .setColor(randomHex())
             .setTitle('Server Status')
-            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** \`1.19.21\``)
+            .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.4\``)
             // .setDescription(`**IP:** mcs.afuxy.com\n**VERSIONS:** \`1.19 - 1.19.1\`\n**BEDROCK:** We support the latest version\n\n`+serverList)
             // .addField('Servers', serverList)
             .addFields([
